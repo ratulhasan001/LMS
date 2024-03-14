@@ -156,7 +156,7 @@ public class signin extends javax.swing.JFrame {
         jLabel_email.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/images.png")));
         jLabel_pass.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pass.png")));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("D:\\INtact Project\\Project LMS\\LibraryMS\\src\\image\\pngwing.com (1).png")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon("D:\\University\\2nd Year\\4th Semester\\2-2 GitHub Repo\\Java Sessional\\LMS\\src\\image\\logo lms.png")); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 24)); // NOI18N
         jLabel5.setText("Library Management System");
