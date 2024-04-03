@@ -323,10 +323,11 @@ public class Reserve extends javax.swing.JFrame {
         
         txtid.setText(d1.getValueAt(selectIndex, 0).toString());
         txtname.setText(d1.getValueAt(selectIndex, 1).toString());
-        txtcat.setText(d1.getValueAt(selectIndex, 2).toString());
-        txtauth.setText(d1.getValueAt(selectIndex, 3).toString());
-        txtpub.setText(d1.getValueAt(selectIndex, 4).toString());
-        txtedi.setText(d1.getValueAt(selectIndex, 5).toString());
+        txtcat.setText(d1.getValueAt(selectIndex, 3).toString());
+        txtbook.setText(d1.getValueAt(selectIndex, 2).toString());
+        txtauth.setText(d1.getValueAt(selectIndex, 4).toString());
+        txtpub.setText(d1.getValueAt(selectIndex, 5).toString());
+        txtedi.setText(d1.getValueAt(selectIndex, 6).toString());
 //        jDate.setText(d1.getValueAt(selectIndex, 5).toString());
     }//GEN-LAST:event_jTable1MouseClicked
 
@@ -416,20 +417,22 @@ public class Reserve extends javax.swing.JFrame {
         String name = txtname.getText();
         String book = txtbook.getText();
         String author = txtauth.getText();
+        String category = txtcat.getText();
         String publication = txtpub.getText();
         String edition = txtedi.getText();
         SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd");
           String pickdate = Date_Format.format(jDate.getDate());
         try {
 
-            pst = con.prepareStatement("UPDATE `rbook` SET `ID`=?");
+            pst = con.prepareStatement("UPDATE `rbook` SET `mid`=?,`mname`=?,`book`=?,`category`=?,`author`=?,`publisher`=?,`edition`=?,`pickdate`=?");
             pst.setString(1, id);
             pst.setString(2, name);
             pst.setString(3, book);
-            pst.setString(4, author);
-            pst.setString(5, publication);
-            pst.setString(6, edition);
-            pst.setString(7, pickdate);
+            pst.setString(4, category);
+            pst.setString(5, author);
+            pst.setString(6, publication);
+            pst.setString(7, edition);
+            pst.setString(8, pickdate);
             //pst.setInt(6, idt);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null,"Reservation Updated");
@@ -438,6 +441,7 @@ public class Reserve extends javax.swing.JFrame {
             txtid.setText("");
             txtname.setText("");
             txtbook.setText("");
+            txtcat.setText("");
             txtauth.setText("");
             txtpub.setText("");
             txtedi.setText("");
