@@ -89,7 +89,7 @@ public class idcard extends javax.swing.JFrame {
 
         jLabel14.setText("ID");
 
-        jpanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jpanel1.setBackground(new java.awt.Color(255, 255, 255));
         jpanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 204));
