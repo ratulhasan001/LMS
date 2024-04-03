@@ -24,11 +24,11 @@ public class Reserve extends javax.swing.JFrame {
 //        Author();
 //        Category();
 //        Publisher();
-        tableupdate();
+        table_update();
     }
     PreparedStatement pst;
 
-    private void tableupdate() {
+    private void table_update() {
 
         int c;
         try {
@@ -318,6 +318,16 @@ public class Reserve extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
+        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        int selectIndex = jTable1.getSelectedRow();
+        
+        txtid.setText(d1.getValueAt(selectIndex, 0).toString());
+        txtname.setText(d1.getValueAt(selectIndex, 1).toString());
+        txtcat.setText(d1.getValueAt(selectIndex, 2).toString());
+        txtauth.setText(d1.getValueAt(selectIndex, 3).toString());
+        txtpub.setText(d1.getValueAt(selectIndex, 4).toString());
+        txtedi.setText(d1.getValueAt(selectIndex, 5).toString());
+//        jDate.setText(d1.getValueAt(selectIndex, 5).toString());
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void txtidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtidActionPerformed
@@ -379,7 +389,7 @@ public class Reserve extends javax.swing.JFrame {
             pst.setString(8, date);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Book Reserved");
-            tableupdate();
+            table_update();
             txtid.setText("");
             txtname.setText("");
             txtbook.setText("");
@@ -389,7 +399,7 @@ public class Reserve extends javax.swing.JFrame {
             txtedi.setText("");
 
             txtname.requestFocus();
-            tableupdate();
+            table_update();
 
         } catch (SQLException ex) {
             Logger.getLogger(Reserve.class.getName()).log(Level.SEVERE, null, ex);
@@ -398,10 +408,81 @@ public class Reserve extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+         DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        int selectIndex = jTable1.getSelectedRow();
+
+        int idt = Integer.parseInt(d1.getValueAt(selectIndex, 0).toString());
+        String id = txtid.getText();
+        String name = txtname.getText();
+        String book = txtbook.getText();
+        String author = txtauth.getText();
+        String publication = txtpub.getText();
+        String edition = txtedi.getText();
+        SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd");
+          String pickdate = Date_Format.format(jDate.getDate());
+        try {
+
+            pst = con.prepareStatement("UPDATE `rbook` SET `ID`=?");
+            pst.setString(1, id);
+            pst.setString(2, name);
+            pst.setString(3, book);
+            pst.setString(4, author);
+            pst.setString(5, publication);
+            pst.setString(6, edition);
+            pst.setString(7, pickdate);
+            //pst.setInt(6, idt);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null,"Reservation Updated");
+            table_update();
+
+            txtid.setText("");
+            txtname.setText("");
+            txtbook.setText("");
+            txtauth.setText("");
+            txtpub.setText("");
+            txtedi.setText("");
+
+            txtid.requestFocus();
+
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(author.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+
+        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        int selectIndex = jTable1.getSelectedRow();
+
+        int idt = Integer.parseInt(d1.getValueAt(selectIndex, 0).toString());
+
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want to Delete the Record","Warning",JOptionPane.YES_NO_OPTION);
+
+        if(dialogResult == JOptionPane.YES_OPTION)
+        {
+
+            try {
+                pst = con.prepareStatement("DELETE FROM `rbook` WHERE ID=?");
+                pst.setInt(1, idt);
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(null,"Reservation Deleted");
+                table_update();
+                txtid.setText("");
+                txtname.setText("");
+                txtbook.setText("");
+                txtcat.setText("");
+                txtauth.setText("");
+                txtpub.setText("");
+                txtedi.setText("");
+                txtid.requestFocus();
+
+                txtid.requestFocus();
+            } catch (SQLException ex) {
+                Logger.getLogger(author.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }        // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
