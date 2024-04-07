@@ -12,174 +12,154 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 public class Search extends javax.swing.JFrame {
- Connection con=null;
-   
+
+    Connection con = null;
+
     public Search() {
         initComponents();
-         con=dbConnection.con();
-         
-         Author();
+        con = dbConnection.con();
+
+        Author();
         Category();
         Publisher();
-       // table_update();
+        // table_update();
     }
-    
+
     PreparedStatement pst;
-    
-    
-    
-     public class Categoryitem 
-{ 
-int id; 
-String name; 
 
-public Categoryitem( int id, String name ) 
-{ 
-this.id = id; 
-this.name = name; 
-} 
-public String toString() 
-{ 
-return name; 
-} 
-}
-      
-      
-   public class Authoritem
-{ 
-int id; 
-String name; 
+    public class Categoryitem {
 
-public Authoritem( int id, String name ) 
-{ 
-this.id = id; 
-this.name = name; 
-} 
+        int id;
+        String name;
 
-public String toString() 
-{ 
-return name; 
-} 
-} 
-   
-   
-   public class Publisheritem
-{ 
-int id; 
-String name; 
+        public Categoryitem(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
 
-public Publisheritem( int id, String name ) 
-{ 
-this.id = id; 
-this.name = name; 
-} 
-public String toString() 
-{ 
-return name; 
-} 
-} 
-    
-   
-   
-               private void Author()
-    {
+        public String toString() {
+            return name;
+        }
+    }
+
+    public class Authoritem {
+
+        int id;
+        String name;
+
+        public Authoritem(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public String toString() {
+            return name;
+        }
+    }
+
+    public class Publisheritem {
+
+        int id;
+        String name;
+
+        public Publisheritem(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public String toString() {
+            return name;
+        }
+    }
+
+    private void Author() {
 
         try {
-           
+
             pst = con.prepareStatement("SELECT * FROM `author`");
             ResultSet rs = pst.executeQuery();
             txtauth.removeAllItems();
-            
-            while(rs.next())
-            {                
-            txtauth.addItem(new Authoritem(rs.getInt(1),rs.getString(2)));    
-            }             
-        } 
-        catch (SQLException ex) {
+
+            while (rs.next()) {
+                txtauth.addItem(new Authoritem(rs.getInt(1), rs.getString(2)));
+            }
+        } catch (SQLException ex) {
             Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
     }
-    
-        private void Category()
-    {
+
+    private void Category() {
 
         try {
-          
+
             pst = con.prepareStatement("select * from category");
             ResultSet rs = pst.executeQuery();
             txtcat.removeAllItems();
-            
-            while(rs.next())
-            {                
-               txtcat.addItem(new Categoryitem(rs.getInt(1),rs.getString(2)));    
-            }             
-        }  catch (SQLException ex) {
-            Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-    }
-    
-    
-     private void Publisher()
-    {
 
-        try {
-           
-            pst = con.prepareStatement("select * from publisher");
-            ResultSet rs = pst.executeQuery();
-             txtpub.removeAllItems();
-            
-            while(rs.next())
-            {                
-              txtpub.addItem(new Publisheritem(rs.getInt(1),rs.getString(2)) );    
-            }             
-        }  catch (SQLException ex) {
-            Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-    }
-     
-     private void tableupdate()
-    {
-     int c;
-            try {
-               
-                 pst = con.prepareStatement("SELECT * FROM `book`");
-                 ResultSet rs = pst.executeQuery();
-                 
-                 ResultSetMetaData rsd = rs.getMetaData();
-                 c = rsd.getColumnCount();
-                 
-                 DefaultTableModel d = (DefaultTableModel)jTable1.getModel();
-                 d.setRowCount(0);
-                                 
-                 while(rs.next())
-                 {
-                     Vector v2 = new Vector(); 
-                     for(int i=1; i<=c; i++)
-                     {
-                         v2.add(rs.getString("name"));
-                         v2.add(rs.getString("category"));
-                         v2.add(rs.getString("author"));  
-                         v2.add(rs.getString("publisher"));
-                         v2.add(rs.getString("edition"));
-                     }             
-                     d.addRow(v2);
-                     
-                 }
+            while (rs.next()) {
+                txtcat.addItem(new Categoryitem(rs.getInt(1), rs.getString(2)));
+            }
         } catch (SQLException ex) {
-            Logger.getLogger(author.class.getName()).log(Level.SEVERE, null, ex);
-            
+            Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    private void Publisher() {
+
+        try {
+
+            pst = con.prepareStatement("select * from publisher");
+            ResultSet rs = pst.executeQuery();
+            txtpub.removeAllItems();
+
+            while (rs.next()) {
+                txtpub.addItem(new Publisheritem(rs.getInt(1), rs.getString(2)));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void tableupdate() {
+        int c;
+        try {
+
+            pst = con.prepareStatement("SELECT * FROM `book`");
+            ResultSet rs = pst.executeQuery();
+
+            ResultSetMetaData rsd = rs.getMetaData();
+            c = rsd.getColumnCount();
+
+            DefaultTableModel d = (DefaultTableModel) jTable1.getModel();
+            d.setRowCount(0);
+
+            while (rs.next()) {
+                Vector v2 = new Vector();
+                for (int i = 1; i <= c; i++) {
+                    v2.add(rs.getString("name"));
+                    v2.add(rs.getString("category"));
+                    v2.add(rs.getString("author"));
+                    v2.add(rs.getString("publisher"));
+                    v2.add(rs.getString("edition"));
+                }
+                d.addRow(v2);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(author.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-   
-    
+
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -329,37 +309,42 @@ return name;
         Authoritem author = (Authoritem) txtauth.getSelectedItem();
         Categoryitem category = (Categoryitem) txtcat.getSelectedItem();
         Publisheritem publisher = (Publisheritem) txtpub.getSelectedItem();
-                
-            try {
-                pst = con.prepareStatement("SELECT * FROM `book` WHERE `category`=?,`author`=?,`publisher`=?,`edition`=?");
-                pst.setString(1, edition);
-                pst.setString(2, author.name);
-                pst.setString(3, category.name);
-                pst.setString(4, publisher.name);
-                pst.executeUpdate();
-                JOptionPane.showMessageDialog(null,"Book Founded");
-                tableupdate();
 
+        try {
 
-//                ResultSet rs = pst.executeQuery();
-//                if(rs.next()==false)
-//                {
-//                    JOptionPane.showMessageDialog(this,"No books are issued on This Id");
-//                }
-//                else
-//                {
-//                    String mname = rs.getString("mname");
-//                    String bname = rs.getString("book");
-//                    txtname.setText(mname.trim());
-//                    txtbook.setText(bname.trim());
-//                    String date = rs.getString("rdate");
-//                    txtdate.setText(date.trim());
-//                }
-            } catch (SQLException ex) {
-                Logger.getLogger(Return.class.getName()).log(Level.SEVERE, null, ex);
+            pst = con.prepareStatement("SELECT * FROM `book` WHERE `category`=? AND `author`=? AND `publisher`=? AND `edition`=?");
+            pst.setString(1, category.name);
+            pst.setString(2, author.name);
+            pst.setString(3, publisher.name);
+            pst.setString(4, edition);
+
+            ResultSet rs = pst.executeQuery();
+
+            if (!rs.next()) {
+                JOptionPane.showMessageDialog(this, "No books found matching the criteria");
+            } else {
+                JOptionPane.showMessageDialog(null, "Book Found");
+
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.setRowCount(0);
+
+                do {
+                    String bookName = rs.getString("name");
+                    String bookCategory = rs.getString("category");
+                    String bookAuthor = rs.getString("author");
+                    String bookPublisher = rs.getString("publisher");
+                    String bookEdition = rs.getString("edition");
+
+                    model.addRow(new Object[]{bookName, bookCategory, bookAuthor, bookPublisher, bookEdition});
+                } while (rs.next());
+
+                jTable1.setModel(model);
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(Return.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -367,13 +352,8 @@ return name;
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    
-
-    
-    
-   
     public static void main(String args[]) {
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Search().setVisible(true);
