@@ -11,17 +11,17 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 public class category extends javax.swing.JFrame {
-      Connection con=null;
-    
+
+    Connection con = null;
+
     public category() {
         initComponents();
-        con=dbConnection.con();
+        con = dbConnection.con();
         table_update();
     }
-PreparedStatement pst;
-   
+    PreparedStatement pst;
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -171,83 +171,65 @@ PreparedStatement pst;
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    
+    private void table_update() {
 
-    
-    
-    
-    
-     private void table_update()
-    {
-       
-            int c;
-            try {
-               
-                 pst = con.prepareStatement("SELECT * FROM `category`");
-                 ResultSet rs = pst.executeQuery();
-                 
-                 ResultSetMetaData rsd = rs.getMetaData();
-                 c = rsd.getColumnCount();
-                 
-                 DefaultTableModel d = (DefaultTableModel)jTable1.getModel();
-                 d.setRowCount(0);
-                                 
-                 while(rs.next())
-                 {
-                     Vector v2 = new Vector();
-                     
-                     for(int i=1; i<=c; i++)
-                     {
-                         v2.add(rs.getString("id"));
-                         v2.add(rs.getString("category"));
-                         v2.add(rs.getString("status"));                         
-                     }             
-                     d.addRow(v2);
-                     
-                 }
-  
-                
-         
-                 
-            
-            
+        int c;
+        try {
+
+            pst = con.prepareStatement("SELECT * FROM `category`");
+            ResultSet rs = pst.executeQuery();
+
+            ResultSetMetaData rsd = rs.getMetaData();
+            c = rsd.getColumnCount();
+
+            DefaultTableModel d = (DefaultTableModel) jTable1.getModel();
+            d.setRowCount(0);
+
+            while (rs.next()) {
+                Vector v2 = new Vector();
+
+                for (int i = 1; i <= c; i++) {
+                    v2.add(rs.getString("id"));
+                    v2.add(rs.getString("category"));
+                    v2.add(rs.getString("status"));
+                }
+                d.addRow(v2);
+
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(category.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-     
-     
+
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
 
         String category = txtcat.getText();
         String status = txtstatus.getSelectedItem().toString();
 
-     
-      
-          
         try {
             pst = con.prepareStatement("INSERT INTO `category`(`category`, `status`) VALUES (?,?)");
-             pst.setString(1, category);
+            pst.setString(1, category);
             pst.setString(2, status);
-           pst.executeUpdate();
-            JOptionPane.showMessageDialog(null,"Category Adddeddd");
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Category Added!!");
             table_update();
             txtcat.setText("");
             txtstatus.setSelectedIndex(-1);
             txtcat.requestFocus();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(category.class.getName()).log(Level.SEVERE, null, ex);
         }
-           
-         
+
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
         int selectIndex = jTable1.getSelectedRow();
 
         int id = Integer.parseInt(d1.getValueAt(selectIndex, 0).toString());
@@ -255,21 +237,20 @@ PreparedStatement pst;
         String status = txtstatus.getSelectedItem().toString();
 
         try {
-           
+
             pst = con.prepareStatement("UPDATE `category` SET `category`=?,`status`=? WHERE id=?");
             pst.setString(1, category);
             pst.setString(2, status);
             pst.setInt(3, id);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null,"Category Updated");
+            JOptionPane.showMessageDialog(null, "Category Updated");
             table_update();
             txtcat.setText("");
             txtstatus.setSelectedIndex(-1);
             txtcat.requestFocus();
-              jButton1.setEnabled(true);
+            jButton1.setEnabled(true);
 
-        } 
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(category.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -278,21 +259,20 @@ PreparedStatement pst;
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
 
-        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
         int selectIndex = jTable1.getSelectedRow();
 
         int id = Integer.parseInt(d1.getValueAt(selectIndex, 0).toString());
 
-        int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want to Delete the Record","Warning",JOptionPane.YES_NO_OPTION);
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want to Delete the Record", "Warning", JOptionPane.YES_NO_OPTION);
 
-        if(dialogResult == JOptionPane.YES_OPTION)
-        {
-          
+        if (dialogResult == JOptionPane.YES_OPTION) {
+
             try {
                 pst = con.prepareStatement("DELETE FROM `category` WHERE id=?");
-                  pst.setInt(1, id);
+                pst.setInt(1, id);
                 pst.executeUpdate();
-                JOptionPane.showMessageDialog(null,"Category Deleted");
+                JOptionPane.showMessageDialog(null, "Category Deleted");
                 table_update();
                 txtcat.setText("");
                 txtstatus.setSelectedIndex(-1);
@@ -300,9 +280,6 @@ PreparedStatement pst;
             } catch (SQLException ex) {
                 Logger.getLogger(category.class.getName()).log(Level.SEVERE, null, ex);
             }
-              
-
-         
 
         }
 
@@ -311,26 +288,25 @@ PreparedStatement pst;
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
 
-        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
         int selectIndex = jTable1.getSelectedRow();
 
         txtcat.setText(d1.getValueAt(selectIndex, 1).toString());
         txtstatus.setSelectedItem(d1.getValueAt(selectIndex, 2).toString());
-        
+
         jButton1.setEnabled(false);
 
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        
+
         this.setVisible(false);
-        
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    
     public static void main(String args[]) {
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new category().setVisible(true);
