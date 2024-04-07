@@ -11,18 +11,18 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 public class author extends javax.swing.JFrame {
-Connection con=null;
-    
+
+    Connection con = null;
+
     public author() {
         initComponents();
-       con=dbConnection.con();
+        con = dbConnection.con();
         table_update();
     }
 
-PreparedStatement pst;
-    
+    PreparedStatement pst;
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -165,102 +165,83 @@ PreparedStatement pst;
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    
-  
-     private void table_update()
-    {
-       
-            int c;
-            try {
-               
-                 pst = con.prepareStatement("SELECT * FROM `author`");
-                 ResultSet rs = pst.executeQuery();
-                 
-                 ResultSetMetaData rsd = rs.getMetaData();
-                 c = rsd.getColumnCount();
-                 
-                 DefaultTableModel d = (DefaultTableModel)jTable1.getModel();
-                 d.setRowCount(0);
-                                 
-                 while(rs.next())
-                 {
-                     Vector v2 = new Vector();
-                     
-                     for(int i=1; i<=c; i++)
-                     {
-                         v2.add(rs.getString("id"));
-                         v2.add(rs.getString("name"));
-                        
-                     }             
-                     d.addRow(v2);
-                     
-                 }  
+    private void table_update() {
+
+        int c;
+        try {
+
+            pst = con.prepareStatement("SELECT * FROM `author`");
+            ResultSet rs = pst.executeQuery();
+
+            ResultSetMetaData rsd = rs.getMetaData();
+            c = rsd.getColumnCount();
+
+            DefaultTableModel d = (DefaultTableModel) jTable1.getModel();
+            d.setRowCount(0);
+
+            while (rs.next()) {
+                Vector v2 = new Vector();
+
+                for (int i = 1; i <= c; i++) {
+                    v2.add(rs.getString("id"));
+                    v2.add(rs.getString("name"));
+
+                }
+                d.addRow(v2);
+
+            }
         } catch (SQLException ex) {
             Logger.getLogger(author.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-     
-     
+
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
 
         String name = txtname.getText();
-      
-     
-      
-          
+
         try {
             pst = con.prepareStatement("INSERT INTO `author`(`name`) VALUES (?)");
-             pst.setString(1, name);
-           
+            pst.setString(1, name);
+
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null,"Author Added");
+            JOptionPane.showMessageDialog(null, "Author Added");
             table_update();
-            
-             txtname.setText("");
-           
-            
-          
+
+            txtname.setText("");
+
             txtname.requestFocus();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(author.class.getName()).log(Level.SEVERE, null, ex);
         }
-           
-         
+
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
         int selectIndex = jTable1.getSelectedRow();
 
         int id = Integer.parseInt(d1.getValueAt(selectIndex, 0).toString());
         String name = txtname.getText();
-        
-        
-        
 
         try {
-           
+
             pst = con.prepareStatement("UPDATE `author` SET `name`=? WHERE id=?");
             pst.setString(1, name);
             pst.setInt(2, id);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null,"Autor Updated");
+            JOptionPane.showMessageDialog(null, "Autor Updated");
             table_update();
-            
+
             txtname.setText("");
-           
-            
-          
-           
-         
+
             txtname.requestFocus();
 
-        } 
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(author.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -269,42 +250,31 @@ PreparedStatement pst;
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
 
-        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
         int selectIndex = jTable1.getSelectedRow();
 
         int id = Integer.parseInt(d1.getValueAt(selectIndex, 0).toString());
 
-        int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want to Delete the Record","Warning",JOptionPane.YES_NO_OPTION);
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want to Delete the Record", "Warning", JOptionPane.YES_NO_OPTION);
 
-        if(dialogResult == JOptionPane.YES_OPTION)
-        {
-          
+        if (dialogResult == JOptionPane.YES_OPTION) {
+
             try {
                 pst = con.prepareStatement("DELETE FROM `author` WHERE id=?");
-                  pst.setInt(1, id);
+                pst.setInt(1, id);
                 pst.executeUpdate();
-                JOptionPane.showMessageDialog(null,"Auhtor Deleted");
+                JOptionPane.showMessageDialog(null, "Auhtor Deleted");
                 table_update();
-                  txtname.setText("");
-            // txtaddress.setText("");
-            // txtphone.setText("");
-            
-          
-           
-         
-            txtname.requestFocus();
-                
-                
-                
-              
-                
+                txtname.setText("");
+                // txtaddress.setText("");
+                // txtphone.setText("");
+
+                txtname.requestFocus();
+
                 txtname.requestFocus();
             } catch (SQLException ex) {
                 Logger.getLogger(author.class.getName()).log(Level.SEVERE, null, ex);
             }
-              
-
-         
 
         }
 
@@ -313,26 +283,23 @@ PreparedStatement pst;
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
 
-        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
         int selectIndex = jTable1.getSelectedRow();
 
         txtname.setText(d1.getValueAt(selectIndex, 1).toString());
-         // txtaddress.setText(d1.getValueAt(selectIndex, 2).toString());
-           //  txtphone.setText(d1.getValueAt(selectIndex, 3).toString());
-        
-        
-      
+        // txtaddress.setText(d1.getValueAt(selectIndex, 2).toString());
+        //  txtphone.setText(d1.getValueAt(selectIndex, 3).toString());
+
 
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-          this.setVisible(false);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton4ActionPerformed
 
-   
     public static void main(String args[]) {
-       
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new author().setVisible(true);
