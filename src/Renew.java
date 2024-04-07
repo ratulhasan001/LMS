@@ -1,7 +1,4 @@
 
-
-
-
 import java.sql.*;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -18,14 +15,15 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Renew extends javax.swing.JFrame {
- Connection con=null;
-    
+
+    Connection con = null;
+
     public Renew() {
         initComponents();
-        con=dbConnection.con();
+        con = dbConnection.con();
     }
-PreparedStatement pst;
-    
+    PreparedStatement pst;
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -193,19 +191,15 @@ PreparedStatement pst;
 
     private void txtidKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtidKeyPressed
         // TODO add your handling code here:
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
-        {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String id = txtid.getText();
             try {
                 pst = con.prepareStatement("SELECT `mname`, `book`, `rdate` FROM `ibook` WHERE mid=?");
                 pst.setString(1, id);
                 ResultSet rs = pst.executeQuery();
-                if(rs.next()==false)
-                {
-                    JOptionPane.showMessageDialog(this,"No books are issued on This Id");
-                }
-                else
-                {
+                if (rs.next() == false) {
+                    JOptionPane.showMessageDialog(this, "No books are issued on This Id");
+                } else {
                     String mname = rs.getString("mname");
                     String bname = rs.getString("book");
                     txtname.setText(mname.trim());
@@ -225,10 +219,10 @@ PreparedStatement pst;
 
         String mid = txtid.getText();
         SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd");
-          String date = Date_Format.format(dateissue.getDate());
-          
-          SimpleDateFormat Date_Format1 = new SimpleDateFormat("yyyy-MM-dd");
-          String date1 = Date_Format1.format(datereturn.getDate());
+        String date = Date_Format.format(dateissue.getDate());
+
+        SimpleDateFormat Date_Format1 = new SimpleDateFormat("yyyy-MM-dd");
+        String date1 = Date_Format1.format(datereturn.getDate());
 
         try {
             pst = con.prepareStatement("UPDATE `ibook` SET `idate`=?,`rdate`=? WHERE mid=?");
@@ -236,16 +230,15 @@ PreparedStatement pst;
             pst.setString(2, date1);
             pst.setString(3, mid);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null,"Renew Book Successfully");
+            JOptionPane.showMessageDialog(null, "Renew Book Successfully");
             dateissue.setDate(dateissue.getDate());
             datereturn.setDate(datereturn.getDate());
-            
-            
+
             txtid.requestFocus();
         } catch (SQLException ex) {
             Logger.getLogger(author.class.getName()).log(Level.SEVERE, null, ex);
         }
-      this.dispose();
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -254,9 +247,8 @@ PreparedStatement pst;
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    
     public static void main(String args[]) {
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Renew().setVisible(true);
