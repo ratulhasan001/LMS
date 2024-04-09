@@ -10,186 +10,149 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 public class Book extends javax.swing.JFrame {
-        Connection con=null;
-    
+
+    Connection con = null;
+
     public Book() {
         initComponents();
-        con=dbConnection.con();
-        
+        con = dbConnection.con();
+
         Author();
         Category();
         Publisher();
         table_update();
     }
-     
+
     PreparedStatement pst;
-    
-    
-      public class CategoryItem 
-{ 
-int id; 
-String name; 
 
-public CategoryItem( int id, String name ) 
-{ 
-this.id = id; 
-this.name = name; 
-} 
+    public class CategoryItem {
 
-public String toString() 
-{ 
-return name; 
-} 
-}
-      
-      
-   public class Authoritem
-{ 
-int id; 
-String name; 
+        int id;
+        String name;
 
-public Authoritem( int id, String name ) 
-{ 
-this.id = id; 
-this.name = name; 
-} 
+        public CategoryItem(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
 
-public String toString() 
-{ 
-return name; 
-} 
-} 
-   
-   
-   public class Publisheritem
-{ 
-int id; 
-String name; 
+        public String toString() {
+            return name;
+        }
+    }
 
-public Publisheritem( int id, String name ) 
-{ 
-this.id = id; 
-this.name = name; 
-} 
+    public class Authoritem {
 
-public String toString() 
-{ 
-return name; 
-} 
-} 
-   
-   
-   
-   
-   
-   
-   
-    
-    
+        int id;
+        String name;
+
+        public Authoritem(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public String toString() {
+            return name;
+        }
+    }
+
+    public class Publisheritem {
+
+        int id;
+        String name;
+
+        public Publisheritem(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public String toString() {
+            return name;
+        }
+    }
+
     @SuppressWarnings("unchecked")
-    
-    
-    
-        private void Author()
-    {
+
+    private void Author() {
 
         try {
-           
+
             pst = con.prepareStatement("SELECT * FROM author");
             ResultSet rs = pst.executeQuery();
             txtauthor.removeAllItems();
-            
-            while(rs.next())
-            {                
-                txtauthor.addItem(new Authoritem(rs.getInt(1),rs.getString(2)) );    
-            }             
-        } 
-        catch (SQLException ex) {
+
+            while (rs.next()) {
+                txtauthor.addItem(new Authoritem(rs.getInt(1), rs.getString(2)));
+            }
+        } catch (SQLException ex) {
             Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
     }
-    
-        private void Category()
-    {
+
+    private void Category() {
 
         try {
-          
+
             pst = con.prepareStatement("select * from category");
             ResultSet rs = pst.executeQuery();
             txtcat.removeAllItems();
-            
-            while(rs.next())
-            {                
-                txtcat.addItem(new CategoryItem(rs.getInt(1),rs.getString(2)) );    
-            }             
-        }  catch (SQLException ex) {
+
+            while (rs.next()) {
+                txtcat.addItem(new CategoryItem(rs.getInt(1), rs.getString(2)));
+            }
+        } catch (SQLException ex) {
             Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
     }
-    
-    
-     private void Publisher()
-    {
+
+    private void Publisher() {
 
         try {
-           
+
             pst = con.prepareStatement("select * from publisher");
             ResultSet rs = pst.executeQuery();
             txtpub.removeAllItems();
-            
-            while(rs.next())
-            {                
-                txtpub.addItem(new Publisheritem(rs.getInt(1),rs.getString(2)) );    
-            }             
-        }  catch (SQLException ex) {
+
+            while (rs.next()) {
+                txtpub.addItem(new Publisheritem(rs.getInt(1), rs.getString(2)));
+            }
+        } catch (SQLException ex) {
             Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
     }
-    
-    
-     private void table_update()
-    {
-       
-            int c;
-            try {
-               
-                 pst = con.prepareStatement("SELECT * FROM `book`");
-                 ResultSet rs = pst.executeQuery();
-                 
-                 ResultSetMetaData rsd = rs.getMetaData();
-                 c = rsd.getColumnCount();
-                 
-                 DefaultTableModel d = (DefaultTableModel)jTable1.getModel();
-                 d.setRowCount(0);
-                                 
-                 while(rs.next())
-                 {
-                     Vector v2 = new Vector(); 
-                     for(int i=1; i<=c; i++)
-                     {
-                         v2.add(rs.getString("id"));
-                         v2.add(rs.getString("name"));
-                         v2.add(rs.getString("category"));
-                         v2.add(rs.getString("author"));  
-                         v2.add(rs.getString("publisher"));
-                         v2.add(rs.getString("edition"));
-                     }             
-                     d.addRow(v2);
-                     
-                 }
+
+    private void table_update() {
+
+        int c;
+        try {
+
+            pst = con.prepareStatement("SELECT * FROM `book`");
+            ResultSet rs = pst.executeQuery();
+
+            ResultSetMetaData rsd = rs.getMetaData();
+            c = rsd.getColumnCount();
+
+            DefaultTableModel d = (DefaultTableModel) jTable1.getModel();
+            d.setRowCount(0);
+
+            while (rs.next()) {
+                Vector v2 = new Vector();
+                for (int i = 1; i <= c; i++) {
+                    v2.add(rs.getString("id"));
+                    v2.add(rs.getString("name"));
+                    v2.add(rs.getString("category"));
+                    v2.add(rs.getString("author"));
+                    v2.add(rs.getString("publisher"));
+                    v2.add(rs.getString("edition"));
+                }
+                d.addRow(v2);
+
+            }
         } catch (SQLException ex) {
             Logger.getLogger(author.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-    
-    
-    
-    
-    
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -273,6 +236,12 @@ return name;
         txtcat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtcatActionPerformed(evt);
+            }
+        });
+
+        txtpub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtpubActionPerformed(evt);
             }
         });
 
@@ -374,117 +343,100 @@ return name;
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String name = txtname.getText();       
+        String name = txtname.getText();
         CategoryItem citem = (CategoryItem) txtcat.getSelectedItem();
-         Authoritem  author = (Authoritem) txtauthor.getSelectedItem();
-        Publisheritem  publisher = (Publisheritem) txtpub.getSelectedItem();
-        
+        Authoritem author = (Authoritem) txtauthor.getSelectedItem();
+        Publisheritem publisher = (Publisheritem) txtpub.getSelectedItem();
 
-        
-        
-         String edition = txtpeditor.getText();
-
+        String edition = txtpeditor.getText();
 
         try {
             pst = con.prepareStatement("INSERT INTO `book`(`name`, `category`, `author`, `publisher`, `edition`) VALUES (?,?,?,?,?)");
-             pst.setString(1, name);
+            pst.setString(1, name);
             pst.setString(2, citem.name);
             pst.setString(3, author.name);
             pst.setString(4, publisher.name);
-            
-            
+
             pst.setString(5, edition);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null,"Book Added Successfully!!!");
-             table_update();
+            JOptionPane.showMessageDialog(null, "Book Added Successfully!!!");
+            table_update();
             txtname.setText("");
             txtcat.setSelectedIndex(-1);
             txtauthor.setSelectedIndex(-1);
-             txtpub.setSelectedIndex(-1);
-             
-            
-            
-             txtpeditor.setText("");
-        
+            txtpub.setSelectedIndex(-1);
+
+            txtpeditor.setText("");
+
             txtname.requestFocus();
         } catch (SQLException ex) {
             Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
         }
-           
-            
-            
-            
-         
-        
-        
-        
-      
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null,"No Need to Update Book");
-       
+        JOptionPane.showMessageDialog(null, "No Need to Update Book");
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-         DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
         int selectIndex = jTable1.getSelectedRow();
 
         int id = Integer.parseInt(d1.getValueAt(selectIndex, 0).toString());
 
-        int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want to Delete the Record","Warning",JOptionPane.YES_NO_OPTION);
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want to Delete the Record", "Warning", JOptionPane.YES_NO_OPTION);
 
-        if(dialogResult == JOptionPane.YES_OPTION)
-        {
-          
+        if (dialogResult == JOptionPane.YES_OPTION) {
+
             try {
                 pst = con.prepareStatement("DELETE FROM `book` WHERE id=?");
                 pst.setInt(1, id);
                 pst.executeUpdate();
-                JOptionPane.showMessageDialog(null,"Book Deleted");
+                JOptionPane.showMessageDialog(null, "Book Deleted");
                 table_update();
-              txtname.setText("");
-              txtcat.setSelectedIndex(-1);
-              txtauthor.setSelectedIndex(-1);
-              txtpub.setSelectedIndex(-1);
-             
-            
-            
-              txtpeditor.setText("");
-        
-              txtname.requestFocus();
+                txtname.setText("");
+                txtcat.setSelectedIndex(-1);
+                txtauthor.setSelectedIndex(-1);
+                txtpub.setSelectedIndex(-1);
+
+                txtpeditor.setText("");
+
+                txtname.requestFocus();
             } catch (SQLException ex) {
                 Logger.getLogger(author.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-                                       
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
         int selectIndex = jTable1.getSelectedRow();
-        
-      
+
         txtname.setText(d1.getValueAt(selectIndex, 1).toString());
         txtpeditor.setText(d1.getValueAt(selectIndex, 5).toString());
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-         this.setVisible(false);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txtcatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcatActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtcatActionPerformed
 
-   
+    private void txtpubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpubActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtpubActionPerformed
+
     public static void main(String args[]) {
-       
+
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -507,7 +459,6 @@ return name;
         }
         //</editor-fold>
 
-        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Book().setVisible(true);
