@@ -50,7 +50,7 @@ public class Lend extends javax.swing.JFrame {
 
         try {
 
-            pst = con.prepareStatement("select * from book");
+            pst = con.prepareStatement("select * from book JOIN category on book.category=category.category where category.status='Active'");
             ResultSet rs = pst.executeQuery();
             txtbook.removeAllItems();
 
@@ -338,26 +338,25 @@ public class Lend extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-           DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
         int selectIndex = jTable1.getSelectedRow();
 
         int id = Integer.parseInt(d1.getValueAt(selectIndex, 0).toString());
 
-        int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want to Delete the Record","Warning",JOptionPane.YES_NO_OPTION);
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want to Delete the Record", "Warning", JOptionPane.YES_NO_OPTION);
 
-        if(dialogResult == JOptionPane.YES_OPTION)
-        {
-          
+        if (dialogResult == JOptionPane.YES_OPTION) {
+
             try {
                 pst = con.prepareStatement("DELETE FROM `ibook` WHERE mid=?");
                 pst.setInt(1, id);
                 pst.executeUpdate();
-                JOptionPane.showMessageDialog(null,"Issued Book Deleted");
+                JOptionPane.showMessageDialog(null, "Issued Book Deleted");
                 table_update();
-              txtname.setText("");
-              txtid.setText("");
-              txtbook.setSelectedIndex(-1);
-              txtid.requestFocus();
+                txtname.setText("");
+                txtid.setText("");
+                txtbook.setSelectedIndex(-1);
+                txtid.requestFocus();
             } catch (SQLException ex) {
                 Logger.getLogger(author.class.getName()).log(Level.SEVERE, null, ex);
             }
