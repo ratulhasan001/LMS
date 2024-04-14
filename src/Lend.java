@@ -15,109 +15,86 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 public class Lend extends javax.swing.JFrame {
-Connection con=null;
-    
+
+    Connection con = null;
+
     public Lend() {
         initComponents();
-        con=dbConnection.con();
-        
+        con = dbConnection.con();
+
         Book();
-       
+
         table_update();
     }
     PreparedStatement pst;
-    
-    
-      public class BookItem 
-{ 
-int id; 
-String name; 
 
-public BookItem( int id, String name ) 
-{ 
-this.id = id; 
-this.name = name; 
-} 
+    public class BookItem {
 
-public String toString() 
-{ 
-return name; 
-} 
-}
-      
-      
+        int id;
+        String name;
 
- 
+        public BookItem(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public String toString() {
+            return name;
+        }
+    }
+
     @SuppressWarnings("unchecked")
-    
-    
-       
-    
-        private void Book()
-    {
+
+    private void Book() {
 
         try {
-          
+
             pst = con.prepareStatement("select * from book");
             ResultSet rs = pst.executeQuery();
             txtbook.removeAllItems();
-            
-            while(rs.next())
-            {                
-                txtbook.addItem(new BookItem(rs.getInt(1),rs.getString(2)) );    
-            }             
-        }  catch (SQLException ex) {
-            Logger.getLogger(Lend.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-    }
-    
-    
-  
-    
-    
-     private void table_update()
-    {
-       
-            int c;
-            try {
-               
-                 pst = con.prepareStatement("SELECT * FROM `ibook`");
-                 ResultSet rs = pst.executeQuery();
-                 
-                 ResultSetMetaData rsd = rs.getMetaData();
-                 c = rsd.getColumnCount();
-                 
-                 DefaultTableModel d = (DefaultTableModel)jTable1.getModel();
-                 d.setRowCount(0);
-                                 
-                 while(rs.next())
-                 {
-                     Vector v2 = new Vector(); 
-                     for(int i=1; i<=c; i++)
-                     {
-                         v2.add(rs.getString("id"));
-                         v2.add(rs.getString("mid"));
-                         v2.add(rs.getString("mname"));
-                         v2.add(rs.getString("book"));
-                         v2.add(rs.getString("idate"));
-                         v2.add(rs.getString("rdate"));
-                     }             
-                     d.addRow(v2);
-                     
-                 }
+
+            while (rs.next()) {
+                txtbook.addItem(new BookItem(rs.getInt(1), rs.getString(2)));
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Lend.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-    
-    
-    
-    
-    
+
+    private void table_update() {
+
+        int c;
+        try {
+
+            pst = con.prepareStatement("SELECT * FROM `ibook`");
+            ResultSet rs = pst.executeQuery();
+
+            ResultSetMetaData rsd = rs.getMetaData();
+            c = rsd.getColumnCount();
+
+            DefaultTableModel d = (DefaultTableModel) jTable1.getModel();
+            d.setRowCount(0);
+
+            while (rs.next()) {
+                Vector v2 = new Vector();
+                for (int i = 1; i <= c; i++) {
+                    v2.add(rs.getString("id"));
+                    v2.add(rs.getString("mid"));
+                    v2.add(rs.getString("mname"));
+                    v2.add(rs.getString("book"));
+                    v2.add(rs.getString("idate"));
+                    v2.add(rs.getString("rdate"));
+                }
+                d.addRow(v2);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Lend.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -320,8 +297,7 @@ return name;
 
     private void txtidKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtidKeyPressed
         // TODO add your handling code here:
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
-        {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
 
             String id = txtid.getText();
 
@@ -330,12 +306,9 @@ return name;
                 pst.setString(1, id);
                 ResultSet rs = pst.executeQuery();
 
-                if(rs.next()==false)
-                {
-                    JOptionPane.showMessageDialog(this,"Member ID not Found");
-                }
-                else
-                {
+                if (rs.next() == false) {
+                    JOptionPane.showMessageDialog(this, "Member ID not Found");
+                } else {
                     String productname = rs.getString("name");
 
                     txtname.setText(productname.trim());
@@ -359,8 +332,8 @@ return name;
         DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
         int selectIndex = jTable1.getSelectedRow();
         
-        txtid.setText(d1.getValueAt(selectIndex, 0).toString());
-        txtname.setText(d1.getValueAt(selectIndex, 1).toString());
+        txtid.setText(d1.getValueAt(selectIndex, 1).toString());
+        txtname.setText(d1.getValueAt(selectIndex, 2).toString());
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -369,20 +342,49 @@ return name;
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        String id = txtid.getText();
+        String name = txtname.getText();
+        BookItem book = (BookItem) txtbook.getSelectedItem();
+
+        SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd");
+        String date = Date_Format.format(jDateChooser1.getDate());
+
+        SimpleDateFormat Date_Format1 = new SimpleDateFormat("yyyy-MM-dd");
+        String date1 = Date_Format1.format(jDateChooser2.getDate());
+
+        try {
+            pst = con.prepareStatement("UPDATE `ibook` SET `mid`=?, `mname`=?, `book`=?, `idate`=?, `rdate`=?");
+            pst.setString(1, id);
+            pst.setString(2, name);
+            pst.setString(3, book.name);
+            pst.setString(4, date);
+            pst.setString(5, date1);
+
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Book ISSUE EDITED");
+            table_update();
+            txtid.setText("");
+            txtname.setText("");
+            txtbook.setSelectedIndex(-1);
+            txtname.requestFocus();
+            table_update();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Lend.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         String id = txtid.getText();
         String name = txtname.getText();
-        BookItem  book = (BookItem) txtbook.getSelectedItem();
+        BookItem book = (BookItem) txtbook.getSelectedItem();
 
-         SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd");
-          String date = Date_Format.format(jDateChooser1.getDate());
-          
-          SimpleDateFormat Date_Format1 = new SimpleDateFormat("yyyy-MM-dd");
-          String date1 = Date_Format1.format(jDateChooser2.getDate());
-       
+        SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd");
+        String date = Date_Format.format(jDateChooser1.getDate());
+
+        SimpleDateFormat Date_Format1 = new SimpleDateFormat("yyyy-MM-dd");
+        String date1 = Date_Format1.format(jDateChooser2.getDate());
 
         try {
             pst = con.prepareStatement("INSERT INTO `ibook`(`mid`, `mname`, `book`, `idate`, `rdate`) VALUES (?,?,?,?,?)");
@@ -391,17 +393,16 @@ return name;
             pst.setString(3, book.name);
             pst.setString(4, date);
             pst.setString(5, date1);
-          
 
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null,"Book ISSUED");
+            JOptionPane.showMessageDialog(null, "Book ISSUED");
             table_update();
             txtid.setText("");
             txtname.setText("");
             txtbook.setSelectedIndex(-1);
             txtname.requestFocus();
             table_update();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Lend.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -409,16 +410,15 @@ return name;
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-          this.setVisible(false);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txtnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtnameActionPerformed
 
-   
     public static void main(String args[]) {
-       
+
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -442,7 +442,6 @@ return name;
         //</editor-fold>
         //</editor-fold>
 
-        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Lend().setVisible(true);
