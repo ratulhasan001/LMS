@@ -13,19 +13,18 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 public class Return extends javax.swing.JFrame {
-            Connection con=null;
-   
+
+    Connection con = null;
+
     public Return() {
         initComponents();
-        con=dbConnection.con();
-       //  table_update();
+        con = dbConnection.con();
+        //  table_update();
     }
-   
+
     PreparedStatement pst;
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -197,50 +196,42 @@ public class Return extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-   
-          
-    
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
+
         String mid = txtid.getText();
 
-        
-          
         try {
-             pst = con.prepareStatement("DELETE FROM `ibook` WHERE mid=?");
-             pst.setString(1, mid);
-             pst.executeUpdate();
-               JOptionPane.showMessageDialog(null,"Returned Book Successfully");
-            
+            pst = con.prepareStatement("DELETE FROM `ibook` WHERE mid=?");
+            pst.setString(1, mid);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Returned Book Successfully");
+
         } catch (SQLException ex) {
             Logger.getLogger(author.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.dispose();  
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-       this.setVisible(false);
-        
+        this.setVisible(false);
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txtidKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtidKeyPressed
         // TODO add your handling code here:
-            if(evt.getKeyCode() == KeyEvent.VK_ENTER)
-        {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String id = txtid.getText();
 
             try {
                 pst = con.prepareStatement("SELECT `mname`, `book`, `rdate`,DATEDIFF(NOW(), `rdate`) as elap FROM `ibook` WHERE mid=?");
                 pst.setString(1, id);
                 ResultSet rs = pst.executeQuery();
-                if(rs.next()==false)
-                {
-                    JOptionPane.showMessageDialog(this,"No books are issued on This Id");
-                }
-                else
-                {
+                if (rs.next() == false) {
+                    JOptionPane.showMessageDialog(this, "No books are issued on This Id");
+                } else {
                     String mname = rs.getString("mname");
                     String bname = rs.getString("book");
                     txtname.setText(mname.trim());
@@ -249,18 +240,15 @@ public class Return extends javax.swing.JFrame {
                     String elp = rs.getString("elap");
                     txtdate.setText(date);
                     int elaped = Integer.parseInt(elp);
-                    if(elaped > 0)
-                    {
-                        
+                    if (elaped > 0) {
+
                         int fine = elaped * 50;
-                        
+
                         int day_count = fine / 50;
                         String hh = String.valueOf(day_count);
                         txtelp.setText(hh);
                         txtfine.setText(String.valueOf(fine));
-                    }
-                    else
-                    {
+                    } else {
                         txtelp.setText("0");
                         txtfine.setText("0");
                     }
@@ -277,9 +265,8 @@ public class Return extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtidActionPerformed
 
-    
     public static void main(String args[]) {
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Return().setVisible(true);
