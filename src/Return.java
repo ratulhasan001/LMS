@@ -227,7 +227,7 @@ public class Return extends javax.swing.JFrame {
 
     private void txtidKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtidKeyPressed
         // TODO add your handling code here:
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+            if(evt.getKeyCode() == KeyEvent.VK_ENTER)
         {
             String id = txtid.getText();
 
@@ -247,12 +247,16 @@ public class Return extends javax.swing.JFrame {
                     txtbook.setText(bname.trim());
                     String date = rs.getString("rdate");
                     String elp = rs.getString("elap");
-
+                    txtdate.setText(date);
                     int elaped = Integer.parseInt(elp);
                     if(elaped > 0)
                     {
-                        txtelp.setText(elp);
+                        
                         int fine = elaped * 50;
+                        
+                        int day_count = fine / 50;
+                        String hh = String.valueOf(day_count);
+                        txtelp.setText(hh);
                         txtfine.setText(String.valueOf(fine));
                     }
                     else
@@ -260,7 +264,7 @@ public class Return extends javax.swing.JFrame {
                         txtelp.setText("0");
                         txtfine.setText("0");
                     }
-                   txtelp.setText(date.trim());
+//                   txtelp.setText(date.trim());
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Return.class.getName()).log(Level.SEVERE, null, ex);
