@@ -445,8 +445,8 @@ public class Book extends javax.swing.JFrame {
         DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
         int selectIndex = jTable1.getSelectedRow();
 
-        txtname.setText(d1.getValueAt(selectIndex, 0).toString());
-        txtpeditor.setText(d1.getValueAt(selectIndex, 4).toString());
+        txtname.setText(d1.getValueAt(selectIndex, 1).toString());
+        txtpeditor.setText(d1.getValueAt(selectIndex, 5).toString());
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
