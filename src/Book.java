@@ -377,7 +377,38 @@ public class Book extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "No Need to Update Book");
+                        String name = txtname.getText();       
+        CategoryItem citem = (CategoryItem) txtcat.getSelectedItem();
+         Authoritem  author = (Authoritem) txtauthor.getSelectedItem();
+        Publisheritem  publisher = (Publisheritem) txtpub.getSelectedItem();
+         String edition = txtpeditor.getText();
+
+
+        try {
+            pst = con.prepareStatement("UPDATE `book` SET `name`=?, `category`=?, `author`=?, `publisher`=?, `edition`=?");
+             pst.setString(1, name);
+            pst.setString(2, citem.name);
+            pst.setString(3, author.name);
+            pst.setString(4, publisher.name);
+            
+            
+            pst.setString(5, edition);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null,"Book Updated Successfully!!!");
+             table_update();
+            txtname.setText("");
+            txtcat.setSelectedIndex(-1);
+            txtauthor.setSelectedIndex(-1);
+             txtpub.setSelectedIndex(-1);
+             
+            
+            
+             txtpeditor.setText("");
+        
+            txtname.requestFocus();
+        } catch (SQLException ex) {
+            Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
