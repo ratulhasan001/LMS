@@ -377,34 +377,30 @@ public class Book extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-                        String name = txtname.getText();       
+        String name = txtname.getText();
         CategoryItem citem = (CategoryItem) txtcat.getSelectedItem();
-         Authoritem  author = (Authoritem) txtauthor.getSelectedItem();
-        Publisheritem  publisher = (Publisheritem) txtpub.getSelectedItem();
-         String edition = txtpeditor.getText();
-
+        Authoritem author = (Authoritem) txtauthor.getSelectedItem();
+        Publisheritem publisher = (Publisheritem) txtpub.getSelectedItem();
+        String edition = txtpeditor.getText();
 
         try {
             pst = con.prepareStatement("UPDATE `book` SET `name`=?, `category`=?, `author`=?, `publisher`=?, `edition`=?");
-             pst.setString(1, name);
+            pst.setString(1, name);
             pst.setString(2, citem.name);
             pst.setString(3, author.name);
             pst.setString(4, publisher.name);
-            
-            
+
             pst.setString(5, edition);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null,"Book Updated Successfully!!!");
-             table_update();
+            JOptionPane.showMessageDialog(null, "Book Updated Successfully!!!");
+            table_update();
             txtname.setText("");
             txtcat.setSelectedIndex(-1);
             txtauthor.setSelectedIndex(-1);
-             txtpub.setSelectedIndex(-1);
-             
-            
-            
-             txtpeditor.setText("");
-        
+            txtpub.setSelectedIndex(-1);
+
+            txtpeditor.setText("");
+
             txtname.requestFocus();
         } catch (SQLException ex) {
             Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
@@ -446,9 +442,9 @@ public class Book extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
         int selectIndex = jTable1.getSelectedRow();
-        
+
         txtname.setText(d1.getValueAt(selectIndex, 0).toString());
         txtpeditor.setText(d1.getValueAt(selectIndex, 4).toString());
     }//GEN-LAST:event_jTable1MouseClicked
