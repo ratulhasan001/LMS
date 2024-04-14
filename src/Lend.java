@@ -97,7 +97,7 @@ return name;
                      Vector v2 = new Vector(); 
                      for(int i=1; i<=c; i++)
                      {
-//                         v2.add(rs.getString("id"));
+                         v2.add(rs.getString("id"));
                          v2.add(rs.getString("mid"));
                          v2.add(rs.getString("mname"));
                          v2.add(rs.getString("book"));
@@ -356,7 +356,11 @@ return name;
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-       
+        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        int selectIndex = jTable1.getSelectedRow();
+        
+        txtid.setText(d1.getValueAt(selectIndex, 0).toString());
+        txtname.setText(d1.getValueAt(selectIndex, 1).toString());
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
