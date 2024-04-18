@@ -234,7 +234,7 @@ public class author extends javax.swing.JFrame {
             pst.setString(1, name);
             pst.setInt(2, id);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Autor Updated");
+            JOptionPane.showMessageDialog(null, "Author Updated");
             table_update();
 
             txtname.setText("");

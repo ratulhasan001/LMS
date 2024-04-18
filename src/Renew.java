@@ -198,7 +198,7 @@ public class Renew extends javax.swing.JFrame {
                 pst.setString(1, id);
                 ResultSet rs = pst.executeQuery();
                 if (rs.next() == false) {
-                    JOptionPane.showMessageDialog(this, "No books are issued on This Id");
+                    JOptionPane.showMessageDialog(this, "No books are issued on this ID");
                 } else {
                     String mname = rs.getString("mname");
                     String bname = rs.getString("book");
@@ -230,7 +230,7 @@ public class Renew extends javax.swing.JFrame {
             pst.setString(2, date1);
             pst.setString(3, mid);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Renew Book Successfully");
+            JOptionPane.showMessageDialog(null, "Book Renewd Successfully");
             dateissue.setDate(dateissue.getDate());
             datereturn.setDate(datereturn.getDate());
 

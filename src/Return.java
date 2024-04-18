@@ -230,7 +230,7 @@ public class Return extends javax.swing.JFrame {
                 pst.setString(1, id);
                 ResultSet rs = pst.executeQuery();
                 if (rs.next() == false) {
-                    JOptionPane.showMessageDialog(this, "No books are issued on This Id");
+                    JOptionPane.showMessageDialog(this, "No books are issued on this ID");
                 } else {
                     String mname = rs.getString("mname");
                     String bname = rs.getString("book");

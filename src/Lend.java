@@ -384,7 +384,7 @@ public class Lend extends javax.swing.JFrame {
             pst.setString(5, date1);
 
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Book ISSUE EDITED");
+            JOptionPane.showMessageDialog(null, "Book Issue Edited");
             table_update();
             txtid.setText("");
             txtname.setText("");
@@ -418,7 +418,7 @@ public class Lend extends javax.swing.JFrame {
             pst.setString(5, date1);
 
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Book ISSUED");
+            JOptionPane.showMessageDialog(null, "Book Issued");
             table_update();
             txtid.setText("");
             txtname.setText("");

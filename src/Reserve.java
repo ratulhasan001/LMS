@@ -321,13 +321,13 @@ public class Reserve extends javax.swing.JFrame {
         DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
         int selectIndex = jTable1.getSelectedRow();
         
-        txtid.setText(d1.getValueAt(selectIndex, 0).toString());
-        txtname.setText(d1.getValueAt(selectIndex, 1).toString());
-        txtcat.setText(d1.getValueAt(selectIndex, 3).toString());
-        txtbook.setText(d1.getValueAt(selectIndex, 2).toString());
-        txtauth.setText(d1.getValueAt(selectIndex, 4).toString());
-        txtpub.setText(d1.getValueAt(selectIndex, 5).toString());
-        txtedi.setText(d1.getValueAt(selectIndex, 6).toString());
+        txtid.setText(d1.getValueAt(selectIndex, 1).toString());
+        txtname.setText(d1.getValueAt(selectIndex, 2).toString());
+        txtcat.setText(d1.getValueAt(selectIndex, 4).toString());
+        txtbook.setText(d1.getValueAt(selectIndex, 3).toString());
+        txtauth.setText(d1.getValueAt(selectIndex, 5).toString());
+        txtpub.setText(d1.getValueAt(selectIndex, 6).toString());
+        txtedi.setText(d1.getValueAt(selectIndex, 7).toString());
 //        jDate.setText(d1.getValueAt(selectIndex, 5).toString());
     }//GEN-LAST:event_jTable1MouseClicked
 

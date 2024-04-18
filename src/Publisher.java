@@ -223,7 +223,7 @@ PreparedStatement pst;
              pst.setString(1, name);
           
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null,"publisher Added");
+            JOptionPane.showMessageDialog(null,"Publisher Added");
             table_update();
             
              txtname.setText("");
@@ -259,7 +259,7 @@ PreparedStatement pst;
          
             pst.setInt(2, id);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null,"Autor Updateddd");
+            JOptionPane.showMessageDialog(null,"Author Updated");
             table_update();
             txtname.setText("");
         
@@ -293,7 +293,7 @@ PreparedStatement pst;
                 pst = con.prepareStatement("DELETE FROM `publisher` WHERE id=?");
                   pst.setInt(1, id);
                 pst.executeUpdate();
-                JOptionPane.showMessageDialog(null,"Auhtor Deletedd");
+                JOptionPane.showMessageDialog(null,"Auhtor Deleted");
                 table_update();
                   txtname.setText("");
           
